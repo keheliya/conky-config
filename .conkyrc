@@ -1,0 +1,78 @@
+# Use Xft?
+use_xft yes
+xftfont Liberation Mono:size=8
+xftalpha 0.8
+text_buffer_size 2048
+
+own_window yes
+own_window_type desktop # Try also 'normal' or 'override
+own_window_transparent yes'
+
+double_buffer yes
+
+
+# note that the $xmms2_* and $mpd_* stuff will only work if you have support for them built into conky
+
+TEXT
+${color orange}SYSTEM ${hr 2}${color}
+${goto 6}${voffset 6}${font OpenLogos:size=22}T${font}${goto 36}${voffset -18}${pre_exec cat /etc/issue.net} $machine
+${goto 36}Kernel: ${kernel} on $nodename
+${hr 2}
+
+${color } CPU0 ${color slate grey}${cpu cpu0}% ${color lightgray}${cpubar cpu1}
+${color } CPU1 ${color slate grey}${cpu cpu2}% ${color lightgray}${cpubar cpu2}$color
+ ${color slate grey}CPU:${color } $cpu% ${acpitemp}C ${color slate grey}Frequency (in MHz):$color $freq
+ ${cpugraph 000000 0077ff}
+ ${color slate grey}RAM Usage:$color $mem/$memmax - $memperc% ${membar 6}
+ ${color slate grey}Swap Usage:$color $swap/$swapmax - $swapperc% ${swapbar 6}
+ ${color slate grey}Load: ${color }$loadavg ${alignr}${color slate grey}Processes: ${color }$processes	${color slate grey}Running:   ${color }$running_processes
+
+ ${color slate grey}UpTime: ${color }$uptime
+
+${voffset -1}DATE ${hr 2}
+${alignc 35}${font Arial Black:size=26}${time %H:%M}${font}
+${alignc}${time %A %d %B %G}
+${color orange}${voffset -1}HD ${hr 2}
+${color slate gray}Hard Disk IO: ${color lightgrey}${diskio} 
+${diskiograph 000000 0077ff}
+${color slate grey}File systems:${color lightgray}
+ / ${alignr}$color${fs_free /}/${fs_size /} ${color lightgray}${fs_bar 6,150 /}
+ /dev ${alignr}$color${fs_free /media/FE4D-9727}/${fs_size /media/FE4D-9727} ${color lightgray}${fs_bar 6,150 /media/FE4D-9727}
+ /aca ${alignr}$color${fs_free /media/5F16-AEB4}/${fs_size /media/5F16-AEB4} ${color lightgray}${fs_bar 6,150 /media/5F16-AEB4}
+ /win ${alignr}$color${fs_free /media/30C04728C046F41E}/${fs_size /media/30C04728C046F41E} ${color lightgray}${fs_bar 6,150 /media/30C04728C046F41E}
+${color orange}NETWORK ${hr 2}${color}
+${color }pp0 ${color slate grey}${addr ppp0}
+ Up:$color ${upspeed ppp0} k/s${color grey} $alignr Down:$color ${downspeed ppp0} k/s
+${upspeedgraph ppp0 20,155 000000 ffffff}$alignr${downspeedgraph ppp0 20,155 000000 ffffff}
+${color lightgrey}${totalup ppp0}           $alignr${color lightgrey}${totaldown ppp0}
+${color orange}USAGE ${hr 2}${color}
+ ${color slate grey}Highest MEM:		%	PID
+ ${color #ddaa00} ${top_mem name 1}	${top_mem mem 1}	${top_mem pid 1}
+ ${color lightgrey} ${top_mem name 2}	${top_mem mem 2}	${top_mem pid 2}
+ ${color lightgrey} ${top_mem name 3}	${top_mem mem 3}	${top_mem pid 3}
+ ${color lightgrey} ${top_mem name 4}	${top_mem mem 4}	${top_mem pid 4}
+$hr
+ ${color slate grey}Highest CPU:		%	PID
+ ${color #ddaa00} ${top name 1}	${top_mem cpu 1}	${top pid 1}
+ ${color lightgrey} ${top name 2}	${top cpu 2}	${top pid 2}
+ ${color lightgrey} ${top name 3}	${top cpu 3}	${top pid 3}
+ ${color lightgrey} ${top name 4}	${top cpu 4}	${top pid 4}
+$hr
+# ${color grey}MPD: $mpd_status $mpd_artist - $mpd_title from $mpd_album at $mpd_vol
+# Bitrate: $mpd_bitrate\n" "Progress: $mpd_bar
+# ${color grey}XMMS2: $xmms2_status $xmms2_artist - $xmms2_title from $xmms2_album
+# Progress: $xmms2_bar
+# ${tail /var/log/Xorg.0.log 3}";
+${execi 30 netstat -ept | grep ESTAB | awk '{print $9}' | cut -d: -f1 | sort | uniq -c | sort -nr}
+$hr
+${color #0077ff}Port(s)${alignr}#Connections
+${color #0077ff}Inbound: ${color lightgrey}${tcp_portmon 1 32767 count}  ${color #0077ff}Outbound: ${color lightgrey}${tcp_portmon 32768 61000 count} ${alignr}${color #0077ff}Total: ${color lightgrey}${tcp_portmon 1 65535 count}
+
+${color #0077ff}Inbound Connection ${alignr} Local Service/Port${color lightgrey}
+ ${tcp_portmon 1 32767 rhost 0} ${alignr} ${tcp_portmon 1 32767 lservice 0}
+ ${tcp_portmon 1 32767 rhost 1} ${alignr} ${tcp_portmon 1 32767 lservice 1}
+ ${tcp_portmon 1 32767 rhost 2} ${alignr} ${tcp_portmon 1 32767 lservice 2}
+ ${tcp_portmon 1 32767 rhost 3} ${alignr} ${tcp_portmon 1 32767 lservice 3}
+ ${tcp_portmon 1 32767 rhost 4} ${alignr} ${tcp_portmon 1 32767 lservice 4}
+ ${tcp_portmon 1 32767 rhost 5} ${alignr} ${tcp_portmon 1 32767 lservice 5}
+ ${tcp_portmon 1 32767 rhost 6} ${alignr} ${tcp_portmon 1 32767 lservice 6}
